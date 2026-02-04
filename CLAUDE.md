@@ -7,6 +7,19 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 AI Agent 팀 기반 제품 개발 프레임워크. CEO의 아이디어를 MVP로 빠르게 구현.
 
+### 현재 구현된 제품: StudyMate
+
+고등학생이 스스로 공부 계획을 세우고 실행할 수 있도록 돕는 가이드형 학습 플래너 웹 서비스.
+
+**핵심 기능**:
+- 가이드형 계획 생성 (5단계 위저드)
+- 일정 관리 (주간/일간 캘린더)
+- 학습 타이머 (포모도로 지원)
+- 대시보드 (진행률, 주간 통계)
+- 학습 기록 관리
+
+**PRD**: `/docs/prd-studymate.md`
+
 
 ## 빌드 및 실행 명령어
 
@@ -22,9 +35,14 @@ npm run build
 
 # 린트
 npm run lint
+npm run lint:fix     # 자동 수정
 
 # 타입 체크
 npm run type-check
+
+# 포맷팅
+npm run format       # Prettier 적용
+npm run format:check # 포맷 체크만
 
 # Supabase 로컬 실행 (필요시)
 npx supabase start
@@ -121,6 +139,7 @@ project-root/
 │   ├── components/   # React 컴포넌트 (ui/, common/, features/)
 │   ├── hooks/        # 커스텀 훅
 │   ├── lib/          # 유틸리티 함수
+│   ├── stores/       # Zustand 상태 스토어
 │   ├── types/        # TypeScript 타입 정의
 │   └── styles/       # 글로벌 스타일
 ├── supabase/         # Supabase 마이그레이션
@@ -131,6 +150,49 @@ project-root/
 
 tsconfig.json에 설정된 경로 별칭:
 - `@/*` → `./src/*` (예: `import { Button } from '@/components/ui/Button'`)
+
+### 컴포넌트 구조
+
+```
+components/
+├── ui/           # 기본 UI (Button, Input, Card, Modal, Toast 등)
+├── common/       # 공통 레이아웃 (Header, Sidebar, Layout, Container, ErrorBoundary)
+└── features/     # 도메인별 기능 컴포넌트
+    ├── auth/         # 로그인, 회원가입, 인증 가드
+    ├── dashboard/    # 대시보드 위젯들
+    ├── calendar/     # 캘린더 뷰, 스케줄 카드
+    ├── plan/         # 계획 생성 위저드 (Step1~5)
+    ├── timer/        # 학습 타이머, 포모도로
+    ├── records/      # 학습 기록 리스트, 필터
+    ├── stats/        # 통계 차트들
+    └── settings/     # 설정 관련
+```
+
+각 features 폴더에는 index.ts로 re-export.
+
+### 상태 관리 (Zustand)
+
+`src/stores/` 디렉토리에 위치:
+- `planWizardStore.ts`: 계획 생성 위저드 상태 (persist 적용)
+- `timerStore.ts`: 학습 타이머 상태
+
+스토어 패턴:
+```typescript
+export const useStore = create<Store>()(
+  persist(
+    (set, get) => ({ ... }),
+    { name: 'storage-key', storage: createJSONStorage(() => localStorage) }
+  )
+)
+```
+
+### 커스텀 훅
+
+`src/hooks/` 디렉토리:
+- `useAuth.ts`: 인증 상태 및 로그인/로그아웃/회원가입
+- `useStudyTimer.ts`: 타이머 로직
+- `useStudyStats.ts`: 통계 데이터 조회
+- `useCalendar.ts`: 캘린더 상태 관리
 
 
 ## 핵심 원칙
@@ -166,6 +228,17 @@ tsconfig.json에 설정된 경로 별칭:
 - 컴포넌트 구조: imports → types → hooks → handlers → early returns → render
 - 커스텀 훅으로 로직 분리
 - 조건부 렌더링: boolean만 `&&` 사용, 숫자는 `> 0` 체크
+
+
+## 주요 라이브러리
+
+| 용도 | 라이브러리 |
+|------|------------|
+| 차트 | recharts |
+| 날짜 | date-fns |
+| 아이콘 | lucide-react |
+| 유틸 | clsx, tailwind-merge |
+| 폼 | react-hook-form + zod (@hookform/resolvers) |
 
 
 ## 시작하기
