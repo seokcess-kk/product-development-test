@@ -1,3 +1,4 @@
+import { ToastProvider } from '@/components/ui/Toast'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
 import './globals.css'
@@ -55,7 +56,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" suppressHydrationWarning>
-      <body className={`${inter.variable} font-sans antialiased`}>{children}</body>
+      <body className={`${inter.variable} font-sans antialiased`}>
+        <ToastProvider>{children}</ToastProvider>
+      </body>
     </html>
   )
 }
+

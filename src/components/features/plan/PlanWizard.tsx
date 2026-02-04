@@ -1,29 +1,29 @@
 'use client'
 
-import { useMemo, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { ChevronLeft, ChevronRight, Save, X } from 'lucide-react'
-import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/Button'
 import { Card, CardContent } from '@/components/ui/Card'
 import { Modal } from '@/components/ui/Modal'
-import { Stepper, StepperMobile } from './Stepper'
+import { useToast } from '@/components/ui/Toast'
+import {
+    selectCurrentStep,
+    selectIsCompleted,
+    selectIsSubmitting,
+    usePlanWizardStore,
+} from '@/stores/planWizardStore'
+import { WIZARD_STEPS } from '@/types/plan'
+import { ChevronLeft, ChevronRight, Save, X } from 'lucide-react'
+import { useRouter } from 'next/navigation'
+import { useEffect, useMemo, useState } from 'react'
 import { Step1GoalSelect } from './Step1GoalSelect'
 import { Step2SubjectSelect } from './Step2SubjectSelect'
 import { Step3TimeInput } from './Step3TimeInput'
 import { Step4TimeAllocation } from './Step4TimeAllocation'
 import { Step5Complete } from './Step5Complete'
-import {
-  usePlanWizardStore,
-  selectCurrentStep,
-  selectIsSubmitting,
-  selectIsCompleted,
-} from '@/stores/planWizardStore'
-import { WIZARD_STEPS } from '@/types/plan'
-import { useState } from 'react'
+import { Stepper, StepperMobile } from './Stepper'
 
 export function PlanWizard() {
   const router = useRouter()
+  const toast = useToast()
   const [showExitModal, setShowExitModal] = useState(false)
   const [hasMounted, setHasMounted] = useState(false)
 
@@ -74,8 +74,7 @@ export function PlanWizard() {
   // 임시 저장
   const handleSaveDraft = () => {
     saveDraft()
-    // TODO: 토스트 메시지 표시
-    alert('임시 저장되었습니다.')
+    toast.success('임시 저장되었습니다.')
   }
 
   // 나가기

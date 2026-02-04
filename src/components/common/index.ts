@@ -9,10 +9,8 @@ export { Sidebar, type SidebarProps } from './Sidebar'
 
 // Layout
 export {
-  Layout,
-  SimpleLayout,
-  PageContainer,
-  type LayoutProps,
-  type SimpleLayoutProps,
-  type PageContainerProps,
+    Layout, PageContainer, SimpleLayout, type LayoutProps, type PageContainerProps, type SimpleLayoutProps
 } from './Layout'
+
+// ErrorBoundary
+export { ErrorBoundary } from './ErrorBoundary'

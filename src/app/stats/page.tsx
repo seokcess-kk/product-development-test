@@ -1,14 +1,13 @@
 'use client'
 
-import * as React from 'react'
 import { Layout, PageContainer } from '@/components/common'
 import {
-  SubjectPieChart,
-  DailyBarChart,
-  MonthlyTrendChart,
-  StudySummaryCard,
-  SubjectRankingList,
-  ResponsivePeriodSelector,
+    DailyBarChart,
+    MonthlyTrendChart,
+    ResponsivePeriodSelector,
+    StudySummaryCard,
+    SubjectPieChart,
+    SubjectRankingList,
 } from '@/components/features/stats'
 import { useStudyStats } from '@/hooks/useStudyStats'
 
@@ -34,7 +33,7 @@ export default function StatsPage() {
 
   // Handle logout (placeholder)
   const handleLogout = () => {
-    console.log('Logout clicked')
+    // TODO: Implement actual logout
   }
 
   return (

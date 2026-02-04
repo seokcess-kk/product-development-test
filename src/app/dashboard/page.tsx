@@ -1,19 +1,19 @@
 'use client'
 
-import * as React from 'react'
-import { useState, useEffect } from 'react'
 import { Layout, PageContainer } from '@/components/common'
 import {
-  TodayProgress,
-  TodayScheduleList,
-  WeeklyStats,
-  StudyStreak,
-  QuickActions,
-  RecentRecords,
-  type ScheduleItem,
-  type WeeklyStatsData,
-  type StudyRecord,
+    QuickActions,
+    RecentRecords,
+    StudyStreak,
+    TodayProgress,
+    TodayScheduleList,
+    WeeklyStats,
+    type ScheduleItem,
+    type StudyRecord,
+    type WeeklyStatsData,
 } from '@/components/features/dashboard'
+import { useToast } from '@/components/ui/Toast'
+import { useEffect, useState } from 'react'
 
 // Mock data - will be replaced with actual API calls
 const mockSchedules: ScheduleItem[] = [
@@ -111,6 +111,7 @@ const mockUser = {
 }
 
 export default function DashboardPage() {
+  const toast = useToast()
   const [isLoading, setIsLoading] = useState(true)
   const [schedules, setSchedules] = useState<ScheduleItem[]>([])
   const [weeklyStats, setWeeklyStats] = useState<WeeklyStatsData[]>([])
@@ -148,13 +149,12 @@ export default function DashboardPage() {
   // Handle timer start (placeholder)
   const handleStartTimer = () => {
     // TODO: Open timer modal or navigate to timer page
-    alert('타이머 기능은 준비 중입니다.')
+    toast.info('타이머 기능은 준비 중입니다.')
   }
 
   // Handle logout (placeholder)
   const handleLogout = () => {
     // TODO: Implement actual logout
-    console.log('Logout clicked')
   }
 
   return (

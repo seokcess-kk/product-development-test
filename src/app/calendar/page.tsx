@@ -1,16 +1,17 @@
 'use client'
 
-import * as React from 'react'
-import { useCalendar } from '@/hooks/useCalendar'
 import { Layout, PageContainer } from '@/components/common/Layout'
 import {
-  CalendarHeader,
-  WeekView,
-  DayView,
-  ScheduleModal,
+    CalendarHeader,
+    DayView,
+    ScheduleModal,
+    WeekView,
 } from '@/components/features/calendar'
+import { useToast } from '@/components/ui/Toast'
+import { useCalendar } from '@/hooks/useCalendar'
 import { mockSchedules } from '@/lib/mockData/calendarData'
 import type { CalendarSchedule as Schedule } from '@/types/calendar'
+import * as React from 'react'
 
 export default function CalendarPage() {
   const {
@@ -29,6 +30,8 @@ export default function CalendarPage() {
     setViewMode,
     timeSlots,
   } = useCalendar()
+
+  const toast = useToast()
 
   // Schedules state (using mock data)
   const [schedules, setSchedules] = React.useState<Schedule[]>(mockSchedules)
@@ -110,7 +113,7 @@ export default function CalendarPage() {
 
   const handleAddSchedule = () => {
     // TODO: Implement add schedule functionality
-    alert('새 일정 추가 기능은 추후 구현 예정입니다.')
+    toast.info('새 일정 추가 기능은 추후 구현 예정입니다.')
   }
 
   // Label based on view mode
