@@ -13,8 +13,8 @@ dist/
 
 # IDE
 .idea/
-.vscode/
 *.swp
+# .vscode/ is tracked for shared team settings
 
 # OS
 .DS_Store
